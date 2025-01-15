@@ -14,7 +14,7 @@ using Enigmatic.Core.Editor;
 
 using ENIX;
 
-namespace Enigmatic.SearchedTree
+namespace Enigmatic.SearchedTrees
 {
     public static class SearchedTreeUtility
     {
@@ -22,7 +22,7 @@ namespace Enigmatic.SearchedTree
         {
             string[] tempTree = tree.Split("/");
 
-            if (tempTree.Length < depthLevel)
+            if (tempTree.Length - 1 < depthLevel)
             {
                 throw new Exception($"This search tree has a maximum depth of {tempTree.Length}. " +
                     $"It is not possible to take an element from a depth of {depthLevel}");
@@ -51,7 +51,7 @@ namespace Enigmatic.SearchedTree
             EnigmaticGUILayout.BeginHorizontal(EnigmaticGUILayout.ExpandWidth(true), EnigmaticGUILayout.ExpandHeight(true),
                 EnigmaticGUILayout.ElementSpacing(0), EnigmaticGUILayout.Padding(0));
             {
-                EnigmaticGUILayout.Lable(name);
+                EnigmaticGUILayout.Label(name);
 
                 EnigmaticGUILayout.Space(width / 2 - EnigmaticGUILayout.GetLastGUIRect().width);
 
@@ -64,9 +64,9 @@ namespace Enigmatic.SearchedTree
             EnigmaticGUILayout.EndHorizontal();
         }
 
-        public static SearchedTree LoadTree(string path, string grup, string root)
+        public static SearchedTree LoadTree(string path, string group, string root)
         {
-            string fullPath = EnigmaticData.GetFullPath($"{path}/{grup}/{root}.enix");
+            string fullPath = EnigmaticData.GetFullPath($"{path}/{group}/{root}.stp");
 
             StreamReader streamReader = new StreamReader(fullPath);
             string file = streamReader.ReadToEnd();

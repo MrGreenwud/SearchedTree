@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 
-namespace Enigmatic.SearchedTree
+namespace Enigmatic.SearchedTrees
 {
     public class SearchedTreeListProvider : ScriptableObject, ISearchWindowProvider
     {
@@ -18,6 +18,8 @@ namespace Enigmatic.SearchedTree
         public static SearchedTreeListProvider Create(SearchedTree root, string senderUID = "0")
         {
             SearchedTreeListProvider provider = CreateInstance<SearchedTreeListProvider>();
+
+            root.Parent?.RemoveChild(root);
 
             provider.m_Root = root;
             provider.m_SenderUID = senderUID;
@@ -43,23 +45,23 @@ namespace Enigmatic.SearchedTree
             List<SearchTreeEntry> entries = new List<SearchTreeEntry>();
             tree.UpdateLevel();
 
-            if (tree.Count > 0)
+            if (tree.ChildCount > 0)
             {
-                entries.Add(new SearchTreeGroupEntry(new GUIContent(tree.Value), (int)tree.Level));
+                entries.Add(new SearchTreeGroupEntry(new GUIContent(tree.Value), (int)tree.DepthLevel));
+
+                tree.ForEach((x) =>
+                {
+                    List<SearchTreeEntry> childEntries = CreateSearchTree(x);
+                    entries.AddRange(childEntries);
+                });
             }
             else
             {
                 SearchTreeEntry entry = new SearchTreeEntry(new GUIContent(tree.Value));
-                entry.level = (int)tree.Level;
+                entry.level = (int)tree.DepthLevel;
                 entry.userData = tree;
                 entries.Add(entry);
             }
-
-            tree.ForEach((childTree) => 
-            {
-                List<SearchTreeEntry> childEntries = CreateSearchTree(childTree);
-                entries.AddRange(childEntries);
-            });
 
             return entries;
         }

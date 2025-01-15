@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 
-namespace Enigmatic.SearchedTree
+namespace Enigmatic.SearchedTrees
 {
     public class SearchWindowStingProvider : ScriptableObject, ISearchWindowProvider
     {
