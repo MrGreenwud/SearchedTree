@@ -6,12 +6,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Enigmatic.SearchedTree
+namespace Enigmatic.SearchedTrees
 {
     public enum PathTypeTree
     {
-        SelectionGrup,
-        SelectionBrench,
+        SelectionGroup,
+        SelectionBranch,
     }
 
     public class SearchedTreeGeneratorWindow : EditorWindow
